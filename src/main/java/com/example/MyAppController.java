@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
 public class MyAppController {
-
 	@FXML
 	private TextArea textArea;
 
@@ -35,11 +34,21 @@ public class MyAppController {
 			// Unicodeエスケープシーケンスは別途プログラムを書いて変換することもできますが、
 			// fromJsonのほうで変換して、読める文字にしてくれます。
 			var gson = new Gson();
+
 			HeartRails hr = gson.fromJson(body, HeartRails.class);
-			hr.response.location.forEach(loc -> {
+			hr.getResponse().getLocation().forEach(loc -> {
 				textArea.appendText(loc.getPrefecture() + loc.getCity() + "\n");
 			});
 
+			/*
+			record LocationRecord(String prefecture, String city, String town) {};
+			record ResponseRecord(List<LocationRecord> location) {};
+			record HeartRailsRecord(ResponseRecord response) {};
+			HeartRailsRecord hr = gson.fromJson(body, HeartRailsRecord.class);
+			hr.response.location.forEach(loc -> {
+				textArea.appendText(loc.prefecture + loc.city + "\n");
+			});
+			*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

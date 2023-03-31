@@ -1,6 +1,6 @@
 package com.example;
 
-public class Area {
+public class Location {
 	private String prefecture;
 	private String city;
 	private String town;

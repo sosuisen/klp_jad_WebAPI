@@ -3,14 +3,9 @@ package com.example;
 import java.util.List;
 
 public class Response {
-	List<Area> location;
-	String error;
+	private List<Location> location;
 
-	public List<Area> getLocation() {
+	public List<Location> getLocation() {
 		return location;
-	}
-
-	public String getError() {
-		return error;
 	}
 }
