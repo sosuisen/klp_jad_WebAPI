@@ -11,17 +11,37 @@ import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 public class MyAppController {
 	@FXML
 	private TextArea textArea;
 
 	@FXML
-    private TextField inputField;
+	private TextField inputField;
+
+	@FXML
+	private VBox addressListVBox;
+
+	private HBox createAddressHBox(String pref, String city, String town) {
+		var prefField = new TextField(pref);
+		prefField.setEditable(false);
+		var cityField = new TextField(city);
+		cityField.setEditable(false);
+		var townField = new TextField(town);
+		townField.setEditable(false);
+		HBox.setHgrow(prefField, Priority.ALWAYS);
+		HBox.setHgrow(cityField, Priority.ALWAYS);
+		HBox.setHgrow(townField, Priority.ALWAYS);
+
+		return new HBox(prefField, cityField, townField);
+	}
 
 	public void initialize() {
 		inputField.setOnAction(e -> {
-			var keyword = inputField.getText(); 
+			var keyword = inputField.getText();
 			try {
 				// var url = "https://geoapi.heartrails.com/api/json?method=searchByPostal&postal=0010010";
 
@@ -44,7 +64,7 @@ public class MyAppController {
 
 				HeartRails hr = gson.fromJson(body, HeartRails.class);
 				hr.getResponse().getLocation().forEach(loc -> {
-					textArea.appendText(loc.getPrefecture() + loc.getCity() + loc.getTown() + "\n");
+					addressListVBox.getChildren().add(createAddressHBox(loc.getPrefecture(), loc.getCity(), loc.getTown()));
 				});
 
 				/*
